@@ -8,7 +8,11 @@ module.exports = {
     node: true
   },
   plugins: ['@typescript-eslint'],
-  extends: ['standard', path.resolve(__dirname, 'base-preset.js')],
+  extends: [
+    'standard',
+    path.resolve(__dirname, 'base-preset.js'),
+    path.resolve(__dirname, 'jest-preset.js')
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 12
@@ -17,7 +21,6 @@ module.exports = {
     'node/no-unsupported-features/es-syntax': [
       'error',
       { ignores: ['modules'] }
-    ],
-    'padded-blocks': 'off'
+    ]
   }
 };

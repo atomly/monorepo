@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Backend Packages",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "resolveJsonModule": true
+  }
+}

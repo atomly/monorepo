@@ -1,5 +1,5 @@
 {
-  "name": "turborepo-basic-shared",
+  "name": "neweb",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -24,7 +24,13 @@
   },
   "devDependencies": {
     "commitizen": "4.2.4",
+    "cz-conventional-changelog": "3.3.0",
     "turbo": "latest"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "engines": {
     "npm": ">=7.0.0",

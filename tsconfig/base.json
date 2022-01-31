@@ -2,6 +2,9 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Default",
   "compilerOptions": {
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
     "composite": false,
     "declaration": true,
     "declarationMap": true,
