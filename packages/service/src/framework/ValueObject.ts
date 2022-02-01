@@ -10,7 +10,8 @@ export default abstract class ValueObject {
   }
 
   public toJSON() {
-    return this.toString();
+    const { equals, notEquals, toJSON, toString, ...rest } = this;
+    return JSON.stringify(rest, null);
   }
 
   public toString() {

@@ -2,19 +2,6 @@ module.exports = {
   extends: ['eslint:recommended', 'prettier'],
   plugins: ['prettier'],
   rules: {
-    '@typescript-eslint/explicit-member-accessibility': [
-      'error',
-      {
-        accessibility: 'explicit',
-        overrides: {
-          accessors: 'explicit',
-          constructors: 'no-public',
-          methods: 'explicit',
-          properties: 'off',
-          parameterProperties: 'explicit'
-        }
-      }
-    ],
     // 'prettier/prettier': 'error',
     'prettier/prettier': [
       'error',
@@ -42,5 +29,13 @@ module.exports = {
     'no-console': ['warn', { allow: ['warn', 'error', 'debug', 'info'] }],
     'padded-blocks': ['error', 'never'],
     'prefer-arrow-callback': 'off'
-  }
+  },
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        'no-undef': 'off'
+      }
+    }
+  ]
 };

@@ -18,9 +18,24 @@ module.exports = {
     ecmaVersion: 12
   },
   rules: {
+    '@typescript-eslint/explicit-member-accessibility': [
+      'error',
+      {
+        accessibility: 'explicit',
+        overrides: {
+          accessors: 'explicit',
+          constructors: 'no-public',
+          methods: 'explicit',
+          properties: 'off',
+          parameterProperties: 'explicit'
+        }
+      }
+    ],
+    '@typescript-eslint/no-use-before-define': ['error'],
     'node/no-unsupported-features/es-syntax': [
       'error',
-      { ignores: ['modules'] }
-    ]
+      { version: '10.0', ignores: ['modules'] }
+    ],
+    'no-use-before-define': 'off'
   }
 };

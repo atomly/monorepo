@@ -6,7 +6,7 @@ module.exports = {
   rules: {},
   overrides: [
     {
-      files: ['**/tests/*'],
+      files: ['*.test.ts', '*.spec.ts'],
       rules: {
         // https://github.com/jest-community/eslint-plugin-jest
         'jest/no-focused-tests': 'off',
