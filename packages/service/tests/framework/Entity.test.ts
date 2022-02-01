@@ -32,21 +32,24 @@ class PictureSize extends ValueObject {
   }
 }
 
-class PictureId {
+class PictureId extends ValueObject {
   id: string;
 
   constructor(id: string) {
+    super();
     this.id = id;
   }
 
-  public static Null = '';
+  public static Null = new PictureId('');
 }
 
 interface DomainEventMetadata {
   occurredOn: Date;
 }
 
-export abstract class DomainEvent<Data> {
+abstract class DomainEvent<Data> {
+  public static EventType: string;
+
   public readonly type: string;
 
   public readonly id: string;
@@ -89,7 +92,7 @@ class UserRegistered extends DomainEvent<UserRegisteredEventData> {
 }
 
 type PictureCreatedEventData = {
-  pictureId: PictureId;
+  pictureId: string;
   height: number;
   width: number;
   uri: string;
@@ -112,7 +115,7 @@ class PictureCreated extends DomainEvent<PictureCreatedEventData> {
 }
 
 type PictureResizedEventData = {
-  pictureId: PictureId;
+  pictureId: string;
   height: number;
   width: number;
 };
@@ -139,56 +142,59 @@ const PictureEvents = {
   PictureResized
 };
 
-// class Picture extends Entity<PictureId>
-// {
-//     internal PictureSize Size { get; private set; }
-//     internal Uri Location { get; private set; }
-//     internal int Order { get; private set; }
+type Class = new (...args: any) => any;
 
-//     protected override void When(object @event)
-//     {
-//         switch (@event)
-//         {
-//             case Events.PictureAddedToAClassifiedAd e:
-//                 ParentId = new ClassifiedAdId(e.ClassifiedAdId);
-//                 Id = new PictureId(e.PictureId);
-//                 Location = new Uri(e.Url);
-//                 Size = new PictureSize { Height = e.Height, Width = e.Width };
-//                 Order = e.Order;
-//                 break;
-//             case Events.ClassifiedAdPictureResized e:
-//                 Size = new PictureSize { Height = e.Height, Width = e.Width };
-//                 break;
-//         }
-//     }
+type EventOf<EventMap extends Record<string, unknown>> =
+  EventMap[keyof EventMap] extends Class
+    ? InstanceType<EventMap[keyof EventMap]>
+    : never;
 
-//     public void Resize(PictureSize newSize)
-//         => Apply(new Events.ClassifiedAdPictureResized
-//         {
-//             PictureId = Id.Value,
-//             ClassifiedAdId = ParentId,
-//             Height = newSize.Width,
-//             Width = newSize.Width
-//         });
+class Uri extends ValueObject {
+  public uri: string;
+  constructor(uri: string) {
+    super();
+    this.uri = uri;
+  }
+}
 
-//     public Picture(Action<object> applier) : base(applier)
-//     {
-//     }
-// }
+class Picture extends Entity<PictureId, EventOf<typeof PictureEvents>> {
+  private size: PictureSize;
+  private uri: Uri;
 
-// public class PictureId : Value<PictureId>
-// {
-//     public PictureId(Guid value) => Value = value;
+  constructor(pictureId: PictureId, size: PictureSize, uri: Uri) {
+    super(pictureId);
+    this.size = size;
+    this.uri = uri;
+  }
 
-//     public Guid Value { get; }
-// }
+  protected When(event: EventOf<typeof PictureEvents>) {
+    switch (true) {
+      case event instanceof PictureEvents.PictureCreated: {
+        const e = event as PictureCreated;
+        this.size = new PictureSize(e.data.width, e.data.height);
+        this.uri = new Uri(e.data.uri);
+        break;
+      }
+      case event instanceof PictureEvents.PictureResized: {
+        const e = event as PictureResized;
+        this.size = new PictureSize(e.data.width, e.data.height);
+        break;
+      }
+    }
+  }
 
-// const UserEvents = {
-//   UserRegistered,
-//   ProfilePhotoUploaded,
-//   UserFullNameUpdated,
-//   UserDisplayNameUpdated
-// };
+  public resize(newSize: PictureSize) {
+    // TODO: Use apply, not handle.
+    this.handle(
+      // TODO: What to do with event and aggregate IDs
+      new PictureEvents.PictureResized('', '', {
+        pictureId: this.id.id,
+        width: this.size.width,
+        height: this.size.height
+      })
+    );
+  }
+}
 
 describe('UserProfile', () => {
   describe('events', () => {
