@@ -18,6 +18,7 @@
     "clean:turbo": "rm -fr .turbo && rm -fr */**/.turbo",
     "clean:logs": "rm -f *.log && rm -fr */**/*.log",
     "clean:output": "rm -fr output && rm -fr */**/output",
+    "commit": "npx cz",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
