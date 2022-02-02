@@ -1,7 +1,10 @@
 {
-  "name": "collection-service",
+  "name": "ddd-framework-eventsourcing",
   "version": "0.0.0",
   "license": "MIT",
+  "peerDependencies": {
+    "collection-service": "*"
+  },
   "devDependencies": {
     "@faker-js/faker": "6.0.0-alpha.5",
     "@types/jest": "27.4.0",
