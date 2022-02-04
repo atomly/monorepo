@@ -1,6 +1,6 @@
 import { Action } from '../../src/Action';
 import EventSourcedEntity from '../../src/EventSourcedEntity';
-import { Events } from './Events';
+import * as Events from './PictureEvents';
 import PictureId from './PictureId';
 import PictureSize from './PictureSize';
 import Uri from './Uri';

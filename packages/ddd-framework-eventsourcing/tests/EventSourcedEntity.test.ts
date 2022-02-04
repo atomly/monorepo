@@ -3,7 +3,7 @@ import Picture from './mocks/Picture';
 import PictureId from './mocks/PictureId';
 import PictureSize from './mocks/PictureSize';
 import Uri from './mocks/Uri';
-import { Events } from './mocks/Events';
+import { Events } from './mocks/PictureEvents';
 
 describe('EventSourcedEntity', () => {
   const applier = jest.fn();

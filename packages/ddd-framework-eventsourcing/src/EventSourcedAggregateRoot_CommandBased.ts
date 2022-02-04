@@ -1,10 +1,12 @@
 import AggregateRoot from 'collection-service/src/framework/AggregateRoot';
+import Command from 'collection-service/src/framework/Command';
 import DomainEvent from 'collection-service/src/framework/DomainEvent';
 import ValueObject from 'collection-service/src/framework/ValueObject';
 import EventSourcedEntity from './EventSourcedEntity';
 
 export default abstract class EventSourcedAggregateRoot<
   Id extends ValueObject,
+  AggregateCommand extends Command<Id> = Command<Id>,
   AggregateEvent extends DomainEvent = DomainEvent
 > extends AggregateRoot<Id> {
   public version: number = -1;
@@ -24,14 +26,15 @@ export default abstract class EventSourcedAggregateRoot<
     this.changes = [];
   }
 
-  public applyChange(event: AggregateEvent) {
-    this.handle(event);
+  public applyChange(aCommand: AggregateCommand) {
+    const event = this.handle(aCommand);
     this.ensureValidState();
     this.changes.push(event);
   }
 
-  public handle(event: AggregateEvent): void {
-    this.when(event);
+  public handle(aCommand: AggregateCommand): AggregateEvent {
+    const event = this.when(aCommand);
+    return event;
   }
 
   public load(eventHistory: AggregateEvent[]): void {
@@ -43,12 +46,13 @@ export default abstract class EventSourcedAggregateRoot<
 
   protected applyChangeToEntity<
     ChildEntity extends EventSourcedEntity<ValueObject, AggregateEvent>
-  >(event: AggregateEvent, entity: ChildEntity): ChildEntity {
-    entity.handle(event);
-    return entity;
+  >(event: AggregateEvent, entity: ChildEntity) {
+    entity?.handle(event);
   }
 
   protected abstract ensureValidState(): void;
 
-  protected abstract when(event: AggregateEvent): void;
+  protected abstract when(aCommand: AggregateCommand): AggregateEvent;
+
+  protected abstract when(anEvent: AggregateEvent): void;
 }

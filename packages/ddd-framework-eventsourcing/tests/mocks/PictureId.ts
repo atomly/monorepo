@@ -1,12 +1,5 @@
-import ValueObject from 'collection-service/src/framework/ValueObject';
+import Identity from 'collection-service/src/framework/Identity';
 
-export default class PictureId extends ValueObject {
-  id: string;
-
-  constructor(id: string) {
-    super();
-    this.id = id;
-  }
-
+export default class PictureId extends Identity {
   public static Null = new PictureId('');
 }
