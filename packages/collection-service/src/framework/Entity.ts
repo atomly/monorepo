@@ -7,7 +7,7 @@ import ValueObject from './ValueObject';
  * an Entity.
  */
 export default abstract class Entity<
-  Id extends ValueObject
+  Id extends ValueObject = ValueObject
 > extends IdentifiedDomainObject<Id> {
   // private concurrencyVersion: number = 0;
 

@@ -16,6 +16,7 @@ export default abstract class ValueObject {
   }
 
   public toJSON() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { equals, notEquals, toJSON, toString, ...rest } = this;
     return JSON.stringify(rest, null);
   }

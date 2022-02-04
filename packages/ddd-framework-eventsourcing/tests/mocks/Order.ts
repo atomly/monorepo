@@ -1,25 +1,14 @@
 import assert from 'assert';
-import DomainEvent from 'collection-service/src/framework/DomainEvent';
-import EventSourcedAggregateRoot from '../../src/EventSourcedAggregateRoot';
+import AggregateRoot from '../../src/AggregateRoot';
 import Address from './Address';
 import * as Events from './OrderEvents';
 import OrderId from './OrderId';
 import OrderLine from './OrderLine';
 import OrderLineId from './OrderLineId';
+import { OrderState } from './OrderState';
+import ProductId from './ProductId';
 
-enum OrderState {
-  Null,
-  Shopping,
-  Placed,
-  Shipped,
-  OutForDelivery,
-  Delivered
-}
-
-export default class Order extends EventSourcedAggregateRoot<
-  OrderId,
-  Events.OrderEvents
-> {
+export default class Order extends AggregateRoot<OrderId, Events.OrderEvents> {
   public id: OrderId = OrderId.Null;
 
   public state: OrderState = OrderState.Null;
@@ -30,14 +19,6 @@ export default class Order extends EventSourcedAggregateRoot<
 
   public shippingAddress: Address = Address.Null;
 
-  // constructor(streamEvents?: Events[]) {
-  //   super();
-  //   this.id = OrderId.Null;
-  //   this.state = OrderState.Null;
-  //   this.billingAddress = Address.Null;
-  //   this.shippingAddress = Address.Null;
-  // }
-
   public create(anId: OrderId): void {
     this.applyChange(new Events.OrderCreated(anId.value));
   }
@@ -46,19 +27,19 @@ export default class Order extends EventSourcedAggregateRoot<
     this.applyChange(new Events.OrderReset(this.id.value));
   }
 
-  public addOrderLine(anOrderLine: OrderLine): void {
+  public addOrderLine(anOrderLineId: OrderLineId, aProductId: ProductId): void {
     this.applyChange(
       new Events.OrderLineAdded(
         this.id.value,
-        anOrderLine.id.value,
-        anOrderLine.productId.value
+        anOrderLineId.value,
+        aProductId.value
       )
     );
   }
 
-  public removeOrderLine(anOrderLine: OrderLine): void {
+  public removeOrderLine(anOrderLineId: OrderLineId): void {
     this.applyChange(
-      new Events.OrderLineRemoved(this.id.value, anOrderLine.id.value)
+      new Events.OrderLineRemoved(this.id.value, anOrderLineId.value)
     );
   }
 
@@ -90,7 +71,7 @@ export default class Order extends EventSourcedAggregateRoot<
     this.applyChange(new Events.OrderPlaced(this.id.value));
   }
 
-  public shipOrder(): void {
+  public ship(): void {
     this.applyChange(new Events.OrderShipped(this.id.value));
   }
 
@@ -104,34 +85,43 @@ export default class Order extends EventSourcedAggregateRoot<
 
   protected ensureValidState(): void {
     switch (this.state) {
+      case OrderState.Null: {
+        this.id.equals(OrderId.Null);
+        assert(this.orderLines.length === 0);
+        break;
+      }
+      case OrderState.Shopping: {
+        assert(this.id.notEquals(OrderId.Null));
+        break;
+      }
       case OrderState.Placed:
       case OrderState.Shipped:
       case OrderState.OutForDelivery:
       case OrderState.Delivered: {
-        this.id.notEquals(OrderId.Null);
-        this.billingAddress.notEquals(Address.Null);
-        this.shippingAddress.notEquals(Address.Null);
+        assert(this.id.notEquals(OrderId.Null));
+        assert(this.billingAddress.notEquals(Address.Null));
+        assert(this.shippingAddress.notEquals(Address.Null));
+        assert(this.orderLines.length > 0);
+        break;
       }
     }
   }
 
   protected when(event: Events.OrderEvents): void {
     if (event instanceof Events.OrderCreated) {
-      this.id = new OrderId(event.entityId);
+      this.id = new OrderId(event.aggregateId);
       this.state = OrderState.Shopping;
     } else if (event instanceof Events.OrderReset) {
       this.orderLines = [];
       this.state = OrderState.Shopping;
     } else if (event instanceof Events.OrderLineAdded) {
-      const orderLine = this.applyChangeToEntity(
-        event,
-        new OrderLine(this.applyChange)
-      );
+      const orderLine = new OrderLine(this.applyChange);
+      this.applyChangeOnEntity(event, orderLine);
       this.orderLines.push(orderLine);
     } else if (event instanceof Events.OrderLineRemoved) {
       const removedOrderLineId = new OrderLineId(event.orderLineId);
-      this.orderLines.filter((orderLine) =>
-        orderLine.id.equals(removedOrderLineId)
+      this.orderLines = this.orderLines.filter((orderLine) =>
+        orderLine.id.notEquals(removedOrderLineId)
       );
     } else if (event instanceof Events.ShippingAddressSet) {
       this.shippingAddress = new Address(
@@ -156,12 +146,5 @@ export default class Order extends EventSourcedAggregateRoot<
     } else if (event instanceof Events.OrderDelivered) {
       this.state = OrderState.Delivered;
     }
-  }
-
-  private static isEventInstanceOf<OrderEvent extends Events.OrderEvents>(
-    aDomainEvent: DomainEvent,
-    aClass: Function
-  ): aDomainEvent is OrderEvent {
-    return aDomainEvent instanceof aClass;
   }
 }

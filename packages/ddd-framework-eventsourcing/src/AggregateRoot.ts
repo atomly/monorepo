@@ -1,20 +1,19 @@
-import AggregateRoot from 'collection-service/src/framework/AggregateRoot';
+import CoreAggregateRoot from 'collection-service/src/framework/AggregateRoot';
 import DomainEvent from 'collection-service/src/framework/DomainEvent';
+import Entity from './Entity';
 import ValueObject from 'collection-service/src/framework/ValueObject';
-import EventSourcedEntity from './EventSourcedEntity';
+import { DomainEventHandler } from './DomainEventHandler';
 
-export default abstract class EventSourcedAggregateRoot<
-  Id extends ValueObject,
-  AggregateEvent extends DomainEvent = DomainEvent
-> extends AggregateRoot<Id> {
+export default abstract class AggregateRoot<
+    Id extends ValueObject = ValueObject,
+    AggregateEvent extends DomainEvent = DomainEvent
+  >
+  extends CoreAggregateRoot<Id>
+  implements DomainEventHandler<AggregateEvent>
+{
   public version: number = -1;
 
   private changes: AggregateEvent[] = [];
-
-  constructor(streamEvents?: AggregateEvent[]) {
-    super();
-    if (streamEvents) this.load(streamEvents);
-  }
 
   public getChanges(): AggregateEvent[] {
     return this.changes;
@@ -32,20 +31,18 @@ export default abstract class EventSourcedAggregateRoot<
 
   public handle(event: AggregateEvent): void {
     this.when(event);
+    this.version += 1;
   }
 
   public load(eventHistory: AggregateEvent[]): void {
-    for (const e of eventHistory) {
-      this.when(e);
-      this.version += 1;
-    }
+    for (const e of eventHistory) this.handle(e);
   }
 
-  protected applyChangeToEntity<
-    ChildEntity extends EventSourcedEntity<ValueObject, AggregateEvent>
-  >(event: AggregateEvent, entity: ChildEntity): ChildEntity {
+  protected applyChangeOnEntity<
+    Event extends DomainEvent,
+    ChildEntity extends Entity<ValueObject, Event>
+  >(event: Event, entity: ChildEntity): void {
     entity.handle(event);
-    return entity;
   }
 
   protected abstract ensureValidState(): void;

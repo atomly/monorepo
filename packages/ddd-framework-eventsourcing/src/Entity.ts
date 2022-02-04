@@ -1,14 +1,14 @@
-import Entity from 'collection-service/src/framework/Entity';
+import CoreEntity from 'collection-service/src/framework/Entity';
 import DomainEvent from 'collection-service/src/framework/DomainEvent';
 import ValueObject from 'collection-service/src/framework/ValueObject';
 import { Action } from './Action';
 import { DomainEventHandler } from './DomainEventHandler';
 
-export default abstract class EventSourcedEntity<
-    Id extends ValueObject,
+export default abstract class Entity<
+    Id extends ValueObject = ValueObject,
     EntityEvent extends DomainEvent = DomainEvent
   >
-  extends Entity<Id>
+  extends CoreEntity<Id>
   implements DomainEventHandler<EntityEvent>
 {
   private readonly applier: Action<EntityEvent>;

@@ -31,11 +31,15 @@ module.exports = {
         }
       }
     ],
+    '@typescript-eslint/no-dupe-class-members': ['error'],
+    'no-dupe-class-members': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
     'node/no-unsupported-features/es-syntax': [
       'error',
       { version: '10.0', ignores: ['modules'] }
     ],
-    'no-use-before-define': 'off'
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    'no-unused-vars': 'off'
   }
 };

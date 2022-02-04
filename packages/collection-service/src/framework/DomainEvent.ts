@@ -7,15 +7,15 @@
  * Aggregate state transition values could be helpful to subscribers.
  */
 export default abstract class DomainEvent {
-  public readonly entityId: string;
+  public readonly aggregateId: string;
 
   public readonly occurredOn: Date;
 
   constructor(
-    entityId: string,
+    aggregateId: string,
     occurredOn: DomainEvent['occurredOn'] = new Date()
   ) {
-    this.entityId = entityId;
+    this.aggregateId = aggregateId;
     this.occurredOn = occurredOn;
   }
 

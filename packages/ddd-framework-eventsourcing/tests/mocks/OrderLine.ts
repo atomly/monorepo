@@ -1,7 +1,20 @@
-import EventSourcedEntity from '../../src/EventSourcedEntity';
+import Entity from '../../src/Entity';
+import * as Events from './OrderEvents';
 import OrderLineId from './OrderLineId';
 import ProductId from './ProductId';
 
-export default class OrderLine extends EventSourcedEntity<OrderLineId> {
-  public readonly productId: ProductId;
+export default class OrderLine extends Entity<
+  OrderLineId,
+  Events.OrderLineAdded
+> {
+  public id: OrderLineId = OrderLineId.Null;
+
+  public productId: ProductId = ProductId.Null;
+
+  protected when(event: Events.OrderLineAdded) {
+    if (event instanceof Events.OrderLineAdded) {
+      this.id = new OrderLineId(event.orderLineId);
+      this.productId = new ProductId(event.orderLineProductId);
+    }
+  }
 }

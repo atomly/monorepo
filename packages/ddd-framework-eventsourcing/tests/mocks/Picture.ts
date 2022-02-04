@@ -1,14 +1,18 @@
+import Identity from 'collection-service/src/framework/Identity';
 import { Action } from '../../src/Action';
-import EventSourcedEntity from '../../src/EventSourcedEntity';
+import Entity from '../../src/Entity';
 import * as Events from './PictureEvents';
 import PictureId from './PictureId';
 import PictureSize from './PictureSize';
 import Uri from './Uri';
 
-export default class Picture extends EventSourcedEntity<
-  PictureId,
-  Events.PictureEvents
-> {
+class ParentId extends Identity {
+  public static Null = new ParentId('');
+}
+
+export default class Picture extends Entity<PictureId, Events.PictureEvents> {
+  public parentId: ParentId = ParentId.Null;
+
   public id: PictureId;
 
   public size: PictureSize;
@@ -24,7 +28,8 @@ export default class Picture extends EventSourcedEntity<
 
   protected when(event: Events.PictureEvents) {
     if (event instanceof Events.PictureCreated) {
-      this.id = new PictureId(event.entityId);
+      this.parentId = new ParentId(event.aggregateId);
+      this.id = new PictureId(event.pictureId);
       this.size = new PictureSize(event.width, event.height);
       this.uri = new Uri(event.uri);
     } else if (event instanceof Events.PictureResized) {
@@ -32,11 +37,14 @@ export default class Picture extends EventSourcedEntity<
     }
   }
 
-  public create(id: PictureId, size: PictureSize, uri: Uri) {
-    this.applyChange(new Events.PictureCreated(id, size, uri));
-  }
-
-  public resize(size: PictureSize) {
-    this.applyChange(new Events.PictureResized(this.id, size));
+  public resize(width: number, height: number) {
+    this.applyChange(
+      new Events.PictureResized(
+        this.parentId.value,
+        this.id.value,
+        width,
+        height
+      )
+    );
   }
 }
