@@ -1,8 +1,8 @@
 import EncryptedValue from '../common/EncryptedValue';
 
 export type EncryptionKeys = {
-  publicKey: EncryptedValue;
-  secretKey: EncryptedValue;
+  publicKey: string;
+  secretKey: string;
 };
 
 export default abstract class EncryptionService {
@@ -10,11 +10,11 @@ export default abstract class EncryptionService {
 
   public abstract encrypt(
     dataToEncrypt: string,
-    aPublicOrSecretKey: string
-  ): PromiseLike<string>;
+    aPublicKey: string
+  ): PromiseLike<EncryptedValue>;
 
   public abstract decrypt(
-    dataToDecrypt: string,
+    dataToDecrypt: EncryptedValue,
     aSecretKey: string
   ): PromiseLike<string>;
 }

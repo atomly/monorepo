@@ -15,16 +15,6 @@ module.exports = {
   },
   rules: {
     //
-    // Replacing base eslint rules with their TypeScript equivalents.
-    // It adds support for TypeScript features, such as types.
-    //
-    '@typescript-eslint/no-dupe-class-members': ['error'],
-    '@typescript-eslint/no-unused-vars': ['error'],
-    '@typescript-eslint/no-use-before-define': ['error'],
-    'no-dupe-class-members': 'off',
-    'no-unused-vars': 'off',
-    'no-use-before-define': 'off',
-    //
     // @typescript-eslint/eslint-recommended
     // [eslint-recommended.ts](https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/eslint-recommended.ts)
     //
@@ -47,6 +37,16 @@ module.exports = {
     'prefer-const': 'error', // ts provides better types with const
     'prefer-rest-params': 'error', // ts provides better types with rest args over arguments
     'prefer-spread': 'error', // ts transpiles spread to apply, so no need for manual apply
-    'valid-typeof': 'off' // ts(2367)
+    'valid-typeof': 'off', // ts(2367)
+    //
+    // Replacing base eslint rules with their TypeScript equivalents.
+    // It adds support for TypeScript features, such as types.
+    //
+    '@typescript-eslint/no-dupe-class-members': ['error'],
+    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-use-before-define': ['error'],
+    'no-dupe-class-members': 'off',
+    'no-unused-vars': 'off',
+    'no-use-before-define': 'off'
   }
 };

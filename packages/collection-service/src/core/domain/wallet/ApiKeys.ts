@@ -3,29 +3,36 @@ import { Anemic } from 'ddd-framework-core/src/utils/Anemic';
 import EncryptionService from '../services/EncryptionService';
 import EncryptedValue from '../common/EncryptedValue';
 
-type SecretKey = EncryptedValue | string | null;
+type PublicKey = string;
+type SecretKey = EncryptedValue;
 
-export class ApiKeys<Secret extends SecretKey = null> extends ValueObject {
-  public public: EncryptedValue;
+export class ApiKeys extends ValueObject {
+  public public: PublicKey;
 
-  public secret: Secret;
+  public secret: SecretKey;
 
-  constructor(data: Anemic<ApiKeys<SecretKey>>) {
+  constructor(data: Anemic<ApiKeys>) {
     super();
     this.public = data.public;
-    this.secret = data.secret as Secret;
+    this.secret = data.secret;
   }
 
-  public static generateNewKeys(
+  public static async generateNewKeys(
     encryptionService: EncryptionService
-  ): ApiKeys<string> {
+  ): Promise<ApiKeys> {
     const { publicKey, secretKey } = encryptionService.generateEncryptionKeys();
 
-    return new ApiKeys({ public: publicKey, secret: secretKey });
+    const secret = await EncryptedValue.encrypt(
+      encryptionService,
+      publicKey,
+      secretKey
+    );
+
+    return new ApiKeys({ public: publicKey, secret });
   }
 
   static Null = new ApiKeys({
-    public: EncryptedValue.Null,
+    public: '',
     secret: EncryptedValue.Null
   });
 }

@@ -10,8 +10,8 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: [
     'standard',
-    path.resolve(__dirname, 'jest-preset.js'),
-    path.resolve(__dirname, 'typescript-preset.js')
+    path.resolve(__dirname, 'typescript-preset.js'),
+    path.resolve(__dirname, 'jest-preset.js')
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -35,5 +35,16 @@ module.exports = {
       'error',
       { version: '10.0', ignores: ['modules'] }
     ]
-  }
+  },
+  overrides: [
+    {
+      files: ['*.test.ts', '*.spec.ts'],
+      rules: {
+        //
+        // Regular overrides.
+        //
+        '@typescript-eslint/no-use-before-define': 'off'
+      }
+    }
+  ]
 };

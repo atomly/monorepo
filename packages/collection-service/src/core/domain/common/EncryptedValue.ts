@@ -9,24 +9,33 @@ export default class EncryptedValue extends ValueObject {
     this.value = value;
   }
 
-  public static async fromRawData(
+  public async decrypt(
     encryptionService: EncryptionService,
-    data: string,
-    publicKey: string
-  ): Promise<EncryptedValue> {
-    const encryptedData = await encryptionService.encrypt(data, publicKey);
-
-    return new EncryptedValue(encryptedData);
-  }
-
-  public static async toRawData(
-    encryptionService: EncryptionService,
-    { value }: EncryptedValue,
     secretKey: string
   ): Promise<string> {
-    const encryptedData = await encryptionService.decrypt(value, secretKey);
+    const encryptedData = await encryptionService.decrypt(this, secretKey);
 
     return encryptedData;
+  }
+
+  public async encrypt(
+    encryptionService: EncryptionService,
+    publicKey: string,
+    data: string
+  ): Promise<void> {
+    const encryptedValue = await encryptionService.encrypt(data, publicKey);
+
+    this.value = encryptedValue.value;
+  }
+
+  public static async encrypt(
+    encryptionService: EncryptionService,
+    publicKey: string,
+    data: string
+  ): Promise<EncryptedValue> {
+    const encryptedValue = await encryptionService.encrypt(data, publicKey);
+
+    return encryptedValue;
   }
 
   public static Null = new EncryptedValue('');

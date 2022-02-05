@@ -1,36 +1,41 @@
-import { generateKeyPair, encrypt, decrypt, Encrypted } from 'eccrypto-js';
+import {
+  generateKeyPair,
+  encrypt,
+  decrypt,
+  Encrypted as EncryptedData
+} from 'eccrypto-js';
 import EncryptedValue from '../../../core/domain/common/EncryptedValue';
 import EncryptionService, {
   EncryptionKeys
 } from '../../../core/domain/services/EncryptionService';
 
-type RawEncrypted = {
+export type SerializedEncryptedData = {
   ciphertext: string;
   ephemPublicKey: string;
   iv: string;
   mac: string;
 };
 
-export class EcCryptoJsEncryptionService extends EncryptionService {
+export default class EcCryptoJsEncryptionService extends EncryptionService {
   public generateEncryptionKeys(): EncryptionKeys {
     const { publicKey, privateKey } = generateKeyPair();
 
     return {
-      publicKey: new EncryptedValue(
-        publicKey.toString(EcCryptoJsEncryptionService.keyBufferEncoding)
+      publicKey: publicKey.toString(
+        EcCryptoJsEncryptionService.keyBufferEncoding
       ),
-      secretKey: new EncryptedValue(
-        privateKey.toString(EcCryptoJsEncryptionService.keyBufferEncoding)
+      secretKey: privateKey.toString(
+        EcCryptoJsEncryptionService.keyBufferEncoding
       )
     };
   }
 
   public async encrypt(
     dataToEncrypt: string,
-    aPublicOrSecretKey: string
-  ): Promise<string> {
-    const keyBuffer = Buffer.from(
-      aPublicOrSecretKey,
+    aPublicKey: string
+  ): Promise<EncryptedValue> {
+    const publicKeyBuffer = Buffer.from(
+      aPublicKey,
       EcCryptoJsEncryptionService.keyBufferEncoding
     );
 
@@ -39,16 +44,19 @@ export class EcCryptoJsEncryptionService extends EncryptionService {
       EcCryptoJsEncryptionService.dataBufferEncoding
     );
 
-    const encryptedData: Encrypted = await encrypt(keyBuffer, dataBuffer);
+    const encryptedData: EncryptedData = await encrypt(
+      publicKeyBuffer,
+      dataBuffer
+    );
 
-    const rawEncryptedData: RawEncrypted =
-      EcCryptoJsEncryptionService.encryptedToRaw(encryptedData);
+    const serializedEncryptedData: SerializedEncryptedData =
+      EcCryptoJsEncryptionService.serializeEncryptedData(encryptedData);
 
-    return JSON.stringify(rawEncryptedData);
+    return new EncryptedValue(JSON.stringify(serializedEncryptedData));
   }
 
   public async decrypt(
-    rawEncryptedDataToDecrypt: string,
+    dataToDecrypt: EncryptedValue,
     aSecretKey: string
   ): Promise<string> {
     const secretKeyBuffer = Buffer.from(
@@ -56,13 +64,25 @@ export class EcCryptoJsEncryptionService extends EncryptionService {
       EcCryptoJsEncryptionService.keyBufferEncoding
     );
 
-    const dataToDecrypt = EcCryptoJsEncryptionService.rawToEncrypted(
-      rawEncryptedDataToDecrypt
+    const encryptedData: EncryptedData =
+      EcCryptoJsEncryptionService.parseEncryptedValue(dataToDecrypt);
+
+    const decryptedData: Buffer = await decrypt(secretKeyBuffer, encryptedData);
+
+    return decryptedData.toString(
+      EcCryptoJsEncryptionService.dataBufferEncoding
     );
+  }
 
-    const decryptData = await decrypt(secretKeyBuffer, dataToDecrypt);
-
-    return decryptData.toString(EcCryptoJsEncryptionService.dataBufferEncoding);
+  public static isSerializedEncryptedData(
+    data: Record<PropertyKey, unknown>
+  ): data is SerializedEncryptedData {
+    return (
+      typeof data.ciphertext === 'string' &&
+      typeof data.ephemPublicKey === 'string' &&
+      typeof data.iv === 'string' &&
+      typeof data.mac === 'string'
+    );
   }
 
   private static keyBufferEncoding: BufferEncoding = 'base64';
@@ -71,8 +91,10 @@ export class EcCryptoJsEncryptionService extends EncryptionService {
 
   private static encryptedBufferEncoding: BufferEncoding = 'hex';
 
-  private static encryptedToRaw(encrypted: Encrypted): RawEncrypted {
-    const rawEncryptedData: RawEncrypted = {
+  private static serializeEncryptedData(
+    encrypted: EncryptedData
+  ): SerializedEncryptedData {
+    const rawEncryptedData: SerializedEncryptedData = {
       ciphertext: encrypted.ciphertext.toString(this.encryptedBufferEncoding),
       ephemPublicKey: encrypted.ephemPublicKey.toString(
         this.encryptedBufferEncoding
@@ -84,10 +106,14 @@ export class EcCryptoJsEncryptionService extends EncryptionService {
     return rawEncryptedData;
   }
 
-  private static rawToEncrypted(raw: string): Encrypted {
-    const rawEncryptedData: RawEncrypted = JSON.parse(raw);
+  private static parseEncryptedValue(
+    encryptedValue: EncryptedValue
+  ): EncryptedData {
+    const rawEncryptedData: SerializedEncryptedData = JSON.parse(
+      encryptedValue.value
+    );
 
-    const encryptedData: Encrypted = {
+    const encryptedData: EncryptedData = {
       ciphertext: Buffer.from(
         rawEncryptedData.ciphertext,
         this.encryptedBufferEncoding
