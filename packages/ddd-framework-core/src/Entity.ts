@@ -28,5 +28,5 @@ export default abstract class Entity<
   //   }
   // }
 
-  protected ensureValidState?(): void;
+  protected validateInvariants?(): void;
 }

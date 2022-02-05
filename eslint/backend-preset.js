@@ -10,8 +10,8 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: [
     'standard',
-    path.resolve(__dirname, 'base-preset.js'),
-    path.resolve(__dirname, 'jest-preset.js')
+    path.resolve(__dirname, 'jest-preset.js'),
+    path.resolve(__dirname, 'typescript-preset.js')
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -31,15 +31,9 @@ module.exports = {
         }
       }
     ],
-    '@typescript-eslint/no-dupe-class-members': ['error'],
-    'no-dupe-class-members': 'off',
-    '@typescript-eslint/no-use-before-define': ['error'],
     'node/no-unsupported-features/es-syntax': [
       'error',
       { version: '10.0', ignores: ['modules'] }
-    ],
-    'no-use-before-define': 'off',
-    '@typescript-eslint/no-unused-vars': ['error'],
-    'no-unused-vars': 'off'
+    ]
   }
 };

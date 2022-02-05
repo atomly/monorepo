@@ -20,15 +20,15 @@ export default class Order extends AggregateRoot<OrderId, Events.OrderEvents> {
   public shippingAddress: Address = Address.Null;
 
   public create(anId: OrderId): void {
-    this.applyChange(new Events.OrderCreated(anId.value));
+    this.apply(new Events.OrderCreated(anId.value));
   }
 
   public restart(): void {
-    this.applyChange(new Events.OrderReset(this.id.value));
+    this.apply(new Events.OrderReset(this.id.value));
   }
 
   public addOrderLine(anOrderLineId: OrderLineId, aProductId: ProductId): void {
-    this.applyChange(
+    this.apply(
       new Events.OrderLineAdded(
         this.id.value,
         anOrderLineId.value,
@@ -38,13 +38,11 @@ export default class Order extends AggregateRoot<OrderId, Events.OrderEvents> {
   }
 
   public removeOrderLine(anOrderLineId: OrderLineId): void {
-    this.applyChange(
-      new Events.OrderLineRemoved(this.id.value, anOrderLineId.value)
-    );
+    this.apply(new Events.OrderLineRemoved(this.id.value, anOrderLineId.value));
   }
 
   public setShippingAddress(anAddress: Address): void {
-    this.applyChange(
+    this.apply(
       new Events.ShippingAddressSet(
         this.id.value,
         anAddress.country,
@@ -56,7 +54,7 @@ export default class Order extends AggregateRoot<OrderId, Events.OrderEvents> {
   }
 
   public setBillingAddress(anAddress: Address): void {
-    this.applyChange(
+    this.apply(
       new Events.BillingAddressSet(
         this.id.value,
         anAddress.country,
@@ -68,22 +66,22 @@ export default class Order extends AggregateRoot<OrderId, Events.OrderEvents> {
   }
 
   public place(): void {
-    this.applyChange(new Events.OrderPlaced(this.id.value));
+    this.apply(new Events.OrderPlaced(this.id.value));
   }
 
   public ship(): void {
-    this.applyChange(new Events.OrderShipped(this.id.value));
+    this.apply(new Events.OrderShipped(this.id.value));
   }
 
   public deliver(): void {
-    this.applyChange(new Events.OrderSentForDelivery(this.id.value));
+    this.apply(new Events.OrderSentForDelivery(this.id.value));
   }
 
   public markOrderAsDelivered(): void {
-    this.applyChange(new Events.OrderDelivered(this.id.value));
+    this.apply(new Events.OrderDelivered(this.id.value));
   }
 
-  protected ensureValidState(): void {
+  protected validateInvariants(): void {
     switch (this.state) {
       case OrderState.Null: {
         this.id.equals(OrderId.Null);
@@ -115,8 +113,8 @@ export default class Order extends AggregateRoot<OrderId, Events.OrderEvents> {
       this.orderLines = [];
       this.state = OrderState.Shopping;
     } else if (event instanceof Events.OrderLineAdded) {
-      const orderLine = new OrderLine(this.applyChange);
-      this.applyChangeOnEntity(event, orderLine);
+      const orderLine = new OrderLine(this.apply);
+      this.applyOnEntity(event, orderLine);
       this.orderLines.push(orderLine);
     } else if (event instanceof Events.OrderLineRemoved) {
       const removedOrderLineId = new OrderLineId(event.orderLineId);

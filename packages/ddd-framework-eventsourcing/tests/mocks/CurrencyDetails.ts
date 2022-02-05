@@ -1,4 +1,4 @@
-import ValueObject from '../../../src/framework/ValueObject';
+import ValueObject from 'ddd-framework-core/src/ValueObject';
 import CurrencyMismatchException from './CurrencyMismatchException';
 import Money from './Money';
 

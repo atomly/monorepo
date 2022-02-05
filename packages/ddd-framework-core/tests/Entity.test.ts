@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
-import Entity from '../../src/framework/Entity';
-import ValueObject from '../../src/framework/ValueObject';
+import Entity from '../src/Entity';
+import ValueObject from '../src/ValueObject';
 
 class UserId extends ValueObject {
   value: string;

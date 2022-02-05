@@ -1,16 +1,12 @@
-import CoreEntity from 'collection-service/src/framework/Entity';
-import DomainEvent from 'collection-service/src/framework/DomainEvent';
-import ValueObject from 'collection-service/src/framework/ValueObject';
+import CoreEntity from 'ddd-framework-core/src/Entity';
+import DomainEvent from 'ddd-framework-core/src/DomainEvent';
+import Identity from 'ddd-framework-core/src/Identity';
 import { Action } from './Action';
-import { DomainEventHandler } from './DomainEventHandler';
 
 export default abstract class Entity<
-    Id extends ValueObject = ValueObject,
-    EntityEvent extends DomainEvent = DomainEvent
-  >
-  extends CoreEntity<Id>
-  implements DomainEventHandler<EntityEvent>
-{
+  Id extends Identity = Identity,
+  EntityEvent extends DomainEvent = DomainEvent
+> extends CoreEntity<Id> {
   private readonly applier: Action<EntityEvent>;
 
   constructor(applier: Action<EntityEvent>) {
@@ -18,13 +14,13 @@ export default abstract class Entity<
     this.applier = applier;
   }
 
-  public applyChange(anEvent: EntityEvent) {
-    this.handle(anEvent);
-    this.ensureValidState && this.ensureValidState();
+  public apply(anEvent: EntityEvent) {
+    this.mutate(anEvent);
+    this.validateInvariants && this.validateInvariants();
     this.applier(anEvent);
   }
 
-  public handle(anEvent: EntityEvent): void {
+  public mutate(anEvent: EntityEvent): void {
     this.when(anEvent);
   }
 

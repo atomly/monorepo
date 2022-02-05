@@ -1,4 +1,4 @@
-import Command from 'collection-service/src/framework/Command';
+import Command from 'ddd-framework-core/src/Command';
 import Address from './Address';
 import OrderId from './OrderId';
 import OrderLine from './OrderLine';

@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  extends: ['next', path.resolve(__dirname, 'base-preset.js')],
+  extends: ['next', path.resolve(__dirname, 'typescript-preset.js')],
   settings: {
     next: {
       rootDir: ['apps/*/', 'packages/*/']

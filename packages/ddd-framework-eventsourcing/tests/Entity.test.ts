@@ -18,7 +18,7 @@ describe('Entity', () => {
     const height = faker.datatype.number();
     const uri = faker.random.image();
 
-    picture.handle(
+    picture.mutate(
       new Events.PictureCreated(aggregateId, pictureId, width, height, uri)
     );
 
@@ -46,7 +46,7 @@ describe('Entity', () => {
       uri
     );
 
-    picture.applyChange(event);
+    picture.apply(event);
 
     // Child entity should handle event:
     expect(picture.id.value).toBe(pictureId);
@@ -74,7 +74,7 @@ describe('Entity', () => {
       uri
     );
 
-    picture.applyChange(pictureCreated);
+    picture.apply(pictureCreated);
 
     const width = faker.datatype.number();
     const height = faker.datatype.number();
@@ -86,7 +86,7 @@ describe('Entity', () => {
       height
     );
 
-    picture.applyChange(pictureResized);
+    picture.apply(pictureResized);
 
     // Applier should receive the proxied child entity event:
     expect(applier).toHaveBeenCalledTimes(2);
@@ -116,7 +116,7 @@ describe('Entity', () => {
         uri
       );
 
-      picture.applyChange(pictureCreated);
+      picture.apply(pictureCreated);
 
       const width = faker.datatype.number();
       const height = faker.datatype.number();

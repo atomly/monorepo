@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
-import AggregateRoot from '../../src/framework/AggregateRoot';
-import ValueObject from '../../src/framework/ValueObject';
+import AggregateRoot from '../src/AggregateRoot';
+import ValueObject from '../src/ValueObject';
 
 class UserId extends ValueObject {
   value: string;

@@ -1,4 +1,4 @@
-import ValueObject from '../../../src/framework/ValueObject';
+import ValueObject from '../../src/ValueObject';
 import CurrencyMismatchException from './CurrencyMismatchException';
 import Money from './Money';
 

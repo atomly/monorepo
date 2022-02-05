@@ -1,4 +1,4 @@
-import Identity from 'collection-service/src/framework/Identity';
+import Identity from 'ddd-framework-core/src/Identity';
 import { Action } from '../../src/Action';
 import Entity from '../../src/Entity';
 import * as Events from './PictureEvents';
@@ -38,7 +38,7 @@ export default class Picture extends Entity<PictureId, Events.PictureEvents> {
   }
 
   public resize(width: number, height: number) {
-    this.applyChange(
+    this.apply(
       new Events.PictureResized(
         this.parentId.value,
         this.id.value,

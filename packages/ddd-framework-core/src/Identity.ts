@@ -1,5 +1,8 @@
-import ValueObject from 'collection-service/src/framework/ValueObject';
+import ValueObject from './ValueObject';
 
+/**
+ * Identity `ValueObject` containing unique ID values.
+ */
 export default abstract class Identity extends ValueObject {
   public value: string;
 

@@ -1,4 +1,4 @@
-import DomainEvent from 'collection-service/src/framework/DomainEvent';
+import DomainEvent from 'ddd-framework-core/src/DomainEvent';
 
 export class PictureCreated extends DomainEvent {
   public pictureId: string;

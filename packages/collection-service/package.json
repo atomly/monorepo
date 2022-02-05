@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "dependencies": {
+    "eccrypto-js": "5.4.0",
+    "ddd-framework-core": "*",
     "ddd-framework-eventsourcing": "*"
   },
   "devDependencies": {

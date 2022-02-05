@@ -1,4 +1,4 @@
-import DomainEvent from 'collection-service/src/framework/DomainEvent';
+import DomainEvent from 'ddd-framework-core/src/DomainEvent';
 
 export class OrderCreated extends DomainEvent {
   public static readonly EventType = 'OrderCreated';

@@ -1,4 +1,4 @@
-import ValueObject from 'collection-service/src/framework/ValueObject';
+import ValueObject from 'ddd-framework-core/src/ValueObject';
 
 export default class Uri extends ValueObject {
   public uri: string;
