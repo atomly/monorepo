@@ -15,7 +15,7 @@ export interface EventStore extends Omit<CoreEventStore, 'append'> {
    */
   loadEventStream<Event extends DomainEvent>(
     anId: Identity
-  ): EventStream<Event>;
+  ): PromiseLike<EventStream<Event>>;
 
   /**
    * Loads subset of events of a stream.

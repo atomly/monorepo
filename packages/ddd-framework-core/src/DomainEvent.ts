@@ -8,7 +8,9 @@ import Identity from './Identity';
  * Event, if discussion proves they are useful. It’s also possible that some resulting
  * Aggregate state transition values could be helpful to subscribers.
  */
-export default abstract class DomainEvent<AggregateIdentity extends Identity> {
+export default abstract class DomainEvent<
+  AggregateIdentity extends Identity = Identity
+> {
   public readonly aggregateId: AggregateIdentity;
 
   public readonly occurredOn: Date;

@@ -8,7 +8,7 @@ import * as Events from '../../../src/core/domain/wallet/Events';
 import Wallet from '../../../src/core/domain/wallet/Wallet';
 import WalletId from '../../../src/core/domain/wallet/WalletId';
 import UserProfile from '../../../src/core/domain/wallet/UserProfile';
-import EcCryptoJsEncryptionService from '../../../src/infrastructure/adapters/driven/EcCryptoJsEncryptionService';
+import EcCryptoJsEncryptionService from '../../../src/infrastructure/adapters/secondary/EcCryptoJsEncryptionService';
 
 describe('Wallet', () => {
   const encryptionService = new EcCryptoJsEncryptionService();

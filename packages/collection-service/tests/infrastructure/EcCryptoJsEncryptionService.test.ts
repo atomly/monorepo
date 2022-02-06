@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
 import EncryptedValue from '../../src/core/domain/common/EncryptedValue';
-import EcCryptoJsEncryptionService from '../../src/infrastructure/adapters/driven/EcCryptoJsEncryptionService';
+import EcCryptoJsEncryptionService from '../../src/infrastructure/adapters/secondary/EcCryptoJsEncryptionService';
 
 describe('EcCryptoJsEncryptionService', () => {
   const encryptionService = new EcCryptoJsEncryptionService();
