@@ -58,43 +58,43 @@ describe('AggregateRoot', () => {
     const orderId = new OrderId(faker.datatype.uuid());
     const orderLineId = new OrderLineId(faker.datatype.uuid());
 
-    // Pretend this comes from a database:
+    // Pretend this comes from an EventStore:
     const stream: Events.OrderEvents[] = [
-      new Events.OrderCreated(orderId.value),
+      new Events.OrderCreated(orderId),
       new Events.OrderLineAdded(
-        orderId.value,
+        orderId,
         orderLineId.value,
         faker.datatype.uuid()
       ),
       new Events.OrderLineAdded(
-        orderId.value,
+        orderId,
         faker.datatype.uuid(),
         faker.datatype.uuid()
       ),
       new Events.OrderLineAdded(
-        orderId.value,
+        orderId,
         faker.datatype.uuid(),
         faker.datatype.uuid()
       ),
-      new Events.OrderLineRemoved(orderId.value, orderLineId.value),
+      new Events.OrderLineRemoved(orderId, orderLineId.value),
       new Events.ShippingAddressSet(
-        orderId.value,
+        orderId,
         faker.datatype.uuid(),
         faker.address.city(),
         faker.address.streetAddress(),
         faker.address.zipCode()
       ),
       new Events.BillingAddressSet(
-        orderId.value,
+        orderId,
         faker.datatype.uuid(),
         faker.address.city(),
         faker.address.streetAddress(),
         faker.address.zipCode()
       ),
-      new Events.OrderPlaced(orderId.value),
-      new Events.OrderShipped(orderId.value),
-      new Events.OrderSentForDelivery(orderId.value),
-      new Events.OrderDelivered(orderId.value)
+      new Events.OrderPlaced(orderId),
+      new Events.OrderShipped(orderId),
+      new Events.OrderSentForDelivery(orderId),
+      new Events.OrderDelivered(orderId)
     ];
 
     const order = new Order();
@@ -125,7 +125,7 @@ describe('AggregateRoot', () => {
       expect(order.shippingAddress).toBe(Address.Null);
     });
 
-    test('full order event flow', () => {
+    test('full order command flow', () => {
       const address = new Address(
         faker.address.country(),
         faker.address.city(),

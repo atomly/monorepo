@@ -1,5 +1,5 @@
 import IdentifiedDomainObject from './IdentifiedDomainObject';
-import ValueObject from './ValueObject';
+import Identity from './Identity';
 
 /**
  * Entities are not fundamentally defined by their properties, but rather by a thread
@@ -7,7 +7,7 @@ import ValueObject from './ValueObject';
  * an Entity.
  */
 export default abstract class Entity<
-  Id extends ValueObject = ValueObject
+  Id extends Identity = Identity
 > extends IdentifiedDomainObject<Id> {
   // private concurrencyVersion: number = 0;
 

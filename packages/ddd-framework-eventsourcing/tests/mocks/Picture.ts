@@ -28,7 +28,7 @@ export default class Picture extends Entity<PictureId, Events.PictureEvents> {
 
   protected when(event: Events.PictureEvents) {
     if (event instanceof Events.PictureCreated) {
-      this.parentId = new ParentId(event.aggregateId);
+      this.parentId = event.aggregateId;
       this.id = new PictureId(event.pictureId);
       this.size = new PictureSize(event.width, event.height);
       this.uri = new Uri(event.uri);
@@ -39,12 +39,7 @@ export default class Picture extends Entity<PictureId, Events.PictureEvents> {
 
   public resize(width: number, height: number) {
     this.apply(
-      new Events.PictureResized(
-        this.parentId.value,
-        this.id.value,
-        width,
-        height
-      )
+      new Events.PictureResized(this.parentId, this.id.value, width, height)
     );
   }
 }

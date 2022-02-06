@@ -1,7 +1,7 @@
 import ValueObject from 'ddd-framework-core/src/ValueObject';
 import { Anemic } from 'ddd-framework-core/src/utils/Anemic';
 
-export class UserProfile extends ValueObject {
+export default class UserProfile extends ValueObject {
   public firstName: string;
 
   public lastName: string;

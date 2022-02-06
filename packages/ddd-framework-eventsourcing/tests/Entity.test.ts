@@ -1,4 +1,5 @@
 import faker from '@faker-js/faker';
+import Identity from 'ddd-framework-core/src/Identity';
 import Picture from './mocks/Picture';
 import * as Events from './mocks/PictureEvents';
 
@@ -12,7 +13,7 @@ describe('Entity', () => {
   test('handles event', () => {
     const picture = new Picture(applier);
 
-    const aggregateId = faker.datatype.uuid();
+    const aggregateId = new AggregateId(faker.datatype.uuid());
     const pictureId = faker.datatype.uuid();
     const width = faker.datatype.number();
     const height = faker.datatype.number();
@@ -32,7 +33,7 @@ describe('Entity', () => {
   test('apply should handle event then proxy it to the applier', () => {
     const picture = new Picture(applier);
 
-    const aggregateId = faker.datatype.uuid();
+    const aggregateId = new AggregateId(faker.datatype.uuid());
     const pictureId = faker.datatype.uuid();
     const width = faker.datatype.number();
     const height = faker.datatype.number();
@@ -62,7 +63,7 @@ describe('Entity', () => {
   test('apply should handle multiple events then proxy all of them to the applier', () => {
     const picture = new Picture(applier);
 
-    const aggregateId = faker.datatype.uuid();
+    const aggregateId = new AggregateId(faker.datatype.uuid());
     const pictureId = faker.datatype.uuid();
     const uri = faker.random.image();
 
@@ -104,7 +105,7 @@ describe('Entity', () => {
     test('resize', () => {
       const picture = new Picture(applier);
 
-      const aggregateId = faker.datatype.uuid();
+      const aggregateId = new AggregateId(faker.datatype.uuid());
       const pictureId = faker.datatype.uuid();
       const uri = faker.random.image();
 
@@ -136,3 +137,7 @@ describe('Entity', () => {
     });
   });
 });
+
+class AggregateId extends Identity {
+  public static Null = new AggregateId('');
+}

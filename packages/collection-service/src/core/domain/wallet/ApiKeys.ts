@@ -1,12 +1,14 @@
 import ValueObject from 'ddd-framework-core/src/ValueObject';
 import { Anemic } from 'ddd-framework-core/src/utils/Anemic';
-import EncryptionService from '../services/EncryptionService';
+import EncryptionService, {
+  EncryptionKeys
+} from '../services/EncryptionService';
 import EncryptedValue from '../common/EncryptedValue';
 
 type PublicKey = string;
 type SecretKey = EncryptedValue;
 
-export class ApiKeys extends ValueObject {
+export default class ApiKeys extends ValueObject {
   public public: PublicKey;
 
   public secret: SecretKey;
@@ -19,16 +21,16 @@ export class ApiKeys extends ValueObject {
 
   public static async generateNewKeys(
     encryptionService: EncryptionService
-  ): Promise<ApiKeys> {
-    const { publicKey, secretKey } = encryptionService.generateEncryptionKeys();
+  ): Promise<[ApiKeys, EncryptionKeys]> {
+    const keys = encryptionService.generateEncryptionKeys();
 
     const secret = await EncryptedValue.encrypt(
       encryptionService,
-      publicKey,
-      secretKey
+      keys.publicKey,
+      keys.secretKey
     );
 
-    return new ApiKeys({ public: publicKey, secret });
+    return [new ApiKeys({ public: keys.publicKey, secret }), keys];
   }
 
   static Null = new ApiKeys({

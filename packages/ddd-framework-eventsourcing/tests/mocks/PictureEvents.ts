@@ -1,6 +1,7 @@
 import DomainEvent from 'ddd-framework-core/src/DomainEvent';
+import Identity from 'ddd-framework-core/src/Identity';
 
-export class PictureCreated extends DomainEvent {
+export class PictureCreated extends DomainEvent<Identity> {
   public pictureId: string;
 
   public height: number;
@@ -10,7 +11,7 @@ export class PictureCreated extends DomainEvent {
   public uri: string;
 
   constructor(
-    aggregateId: string,
+    aggregateId: Identity,
     pictureId: string,
     width: number,
     height: number,
@@ -28,7 +29,7 @@ export class PictureCreated extends DomainEvent {
   public static readonly EventVersion = 0;
 }
 
-export class PictureResized extends DomainEvent {
+export class PictureResized extends DomainEvent<Identity> {
   public pictureId: string;
 
   public height: number;
@@ -36,7 +37,7 @@ export class PictureResized extends DomainEvent {
   public width: number;
 
   constructor(
-    aggregateId: string,
+    aggregateId: Identity,
     pictureId: string,
     width: number,
     height: number

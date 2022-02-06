@@ -1,24 +1,25 @@
 import DomainEvent from 'ddd-framework-core/src/DomainEvent';
+import OrderId from './OrderId';
 
-export class OrderCreated extends DomainEvent {
+export class OrderCreated extends DomainEvent<OrderId> {
   public static readonly EventType = 'OrderCreated';
 
   public static readonly EventVersion = 0;
 }
 
-export class OrderReset extends DomainEvent {
+export class OrderReset extends DomainEvent<OrderId> {
   public static readonly EventType = 'OrderReset';
 
   public static readonly EventVersion = 0;
 }
 
-export class OrderLineAdded extends DomainEvent {
+export class OrderLineAdded extends DomainEvent<OrderId> {
   public readonly orderLineId: string;
 
   public readonly orderLineProductId: string;
 
   constructor(
-    anOrderId: string,
+    anOrderId: OrderId,
     anOrderLineId: string,
     orderLineProductId: string
   ) {
@@ -32,10 +33,10 @@ export class OrderLineAdded extends DomainEvent {
   public static readonly EventVersion = 0;
 }
 
-export class OrderLineRemoved extends DomainEvent {
+export class OrderLineRemoved extends DomainEvent<OrderId> {
   public readonly orderLineId: string;
 
-  constructor(anOrderId: string, anOrderLineId: string) {
+  constructor(anOrderId: OrderId, anOrderLineId: string) {
     super(anOrderId);
     this.orderLineId = anOrderLineId;
   }
@@ -45,7 +46,7 @@ export class OrderLineRemoved extends DomainEvent {
   public static readonly EventVersion = 0;
 }
 
-export class ShippingAddressSet extends DomainEvent {
+export class ShippingAddressSet extends DomainEvent<OrderId> {
   public country: string;
 
   public city: string;
@@ -55,7 +56,7 @@ export class ShippingAddressSet extends DomainEvent {
   public zipCode: string;
 
   constructor(
-    anOrderId: string,
+    anOrderId: OrderId,
     country: string,
     city: string,
     street: string,
@@ -73,7 +74,7 @@ export class ShippingAddressSet extends DomainEvent {
   public static readonly EventVersion = 0;
 }
 
-export class BillingAddressSet extends DomainEvent {
+export class BillingAddressSet extends DomainEvent<OrderId> {
   public country: string;
 
   public city: string;
@@ -83,7 +84,7 @@ export class BillingAddressSet extends DomainEvent {
   public zipCode: string;
 
   constructor(
-    anOrderId: string,
+    anOrderId: OrderId,
     country: string,
     city: string,
     street: string,
@@ -101,25 +102,25 @@ export class BillingAddressSet extends DomainEvent {
   public static readonly EventVersion = 0;
 }
 
-export class OrderPlaced extends DomainEvent {
+export class OrderPlaced extends DomainEvent<OrderId> {
   public static readonly EventType = 'OrderPlaced';
 
   public static readonly EventVersion = 0;
 }
 
-export class OrderShipped extends DomainEvent {
+export class OrderShipped extends DomainEvent<OrderId> {
   public static readonly EventType = 'OrderShipped';
 
   public static readonly EventVersion = 0;
 }
 
-export class OrderSentForDelivery extends DomainEvent {
+export class OrderSentForDelivery extends DomainEvent<OrderId> {
   public static readonly EventType = 'OrderSentForDelivery';
 
   public static readonly EventVersion = 0;
 }
 
-export class OrderDelivered extends DomainEvent {
+export class OrderDelivered extends DomainEvent<OrderId> {
   public static readonly EventType = 'OrderDelivered';
 
   public static readonly EventVersion = 0;
