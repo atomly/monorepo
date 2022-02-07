@@ -2,15 +2,15 @@ import DomainEvent from 'ddd-framework-core/src/DomainEvent';
 import OrderId from './OrderId';
 
 export class OrderCreated extends DomainEvent<OrderId> {
-  public static readonly EventType = 'OrderCreated';
+  public static readonly eventType = 'OrderCreated';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class OrderReset extends DomainEvent<OrderId> {
-  public static readonly EventType = 'OrderReset';
+  public static readonly eventType = 'OrderReset';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class OrderLineAdded extends DomainEvent<OrderId> {
@@ -28,9 +28,9 @@ export class OrderLineAdded extends DomainEvent<OrderId> {
     this.orderLineProductId = orderLineProductId;
   }
 
-  public static readonly EventType = 'OrderLineAdded';
+  public static readonly eventType = 'OrderLineAdded';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class OrderLineRemoved extends DomainEvent<OrderId> {
@@ -41,9 +41,9 @@ export class OrderLineRemoved extends DomainEvent<OrderId> {
     this.orderLineId = anOrderLineId;
   }
 
-  public static readonly EventType = 'OrderLineRemoved';
+  public static readonly eventType = 'OrderLineRemoved';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class ShippingAddressSet extends DomainEvent<OrderId> {
@@ -69,9 +69,9 @@ export class ShippingAddressSet extends DomainEvent<OrderId> {
     this.zipCode = zipCode;
   }
 
-  public static readonly EventType = 'ShippingAddressSet';
+  public static readonly eventType = 'ShippingAddressSet';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class BillingAddressSet extends DomainEvent<OrderId> {
@@ -97,33 +97,33 @@ export class BillingAddressSet extends DomainEvent<OrderId> {
     this.zipCode = zipCode;
   }
 
-  public static readonly EventType = 'BillingAddressSet';
+  public static readonly eventType = 'BillingAddressSet';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class OrderPlaced extends DomainEvent<OrderId> {
-  public static readonly EventType = 'OrderPlaced';
+  public static readonly eventType = 'OrderPlaced';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class OrderShipped extends DomainEvent<OrderId> {
-  public static readonly EventType = 'OrderShipped';
+  public static readonly eventType = 'OrderShipped';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class OrderSentForDelivery extends DomainEvent<OrderId> {
-  public static readonly EventType = 'OrderSentForDelivery';
+  public static readonly eventType = 'OrderSentForDelivery';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class OrderDelivered extends DomainEvent<OrderId> {
-  public static readonly EventType = 'OrderDelivered';
+  public static readonly eventType = 'OrderDelivered';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export type OrderEvents =

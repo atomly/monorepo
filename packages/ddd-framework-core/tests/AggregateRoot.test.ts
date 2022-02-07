@@ -10,6 +10,7 @@ class UserId extends ValueObject {
     this.value = id;
   }
 }
+
 class User extends AggregateRoot<UserId> {
   public id: UserId;
 

@@ -24,11 +24,13 @@ export interface EventStore extends Omit<CoreEventStore, 'append'> {
     anId: Identity,
     skipEvents: number,
     maxCount: number
-  ): EventStream<Event>;
+  ): PromiseLike<EventStream<Event>>;
 
-  // appends events to a stream, throwing
-  // OptimisticConcurrencyException another appended
-  // new events since expectedversion
+  /**
+   * Appends new events to the stream. Should throw a concurrency
+   * exception if the stream version is not the expected version in
+   * the store.
+   */
   appendToEventStream<Stream extends EventStream<DomainEvent>>(
     anId: Identity,
     version: Stream['version'],

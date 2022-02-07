@@ -5,12 +5,14 @@
   "dependencies": {
     "eccrypto-js": "5.4.0",
     "ddd-framework-core": "*",
-    "ddd-framework-eventsourcing": "*"
+    "ddd-framework-eventsourcing": "*",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "@faker-js/faker": "6.0.0-alpha.5",
     "@types/jest": "27.4.0",
     "@types/lodash": "4.14.178",
+    "@types/uuid": "8.3.4",
     "jest": "27.4.7",
     "lodash": "4.17.21",
     "ts-jest": "27.1.3",

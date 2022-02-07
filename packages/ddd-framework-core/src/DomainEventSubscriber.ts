@@ -23,5 +23,5 @@ export interface DomainEventSubscriber {
    */
   handleEvent(event: DomainEvent): Promise<void>;
 
-  subscribedToEventType(): Promise<typeof DomainEvent['EventType'][]>;
+  subscribedToeventType(): Promise<typeof DomainEvent['eventType'][]>;
 }

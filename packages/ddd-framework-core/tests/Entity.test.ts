@@ -10,6 +10,7 @@ class UserId extends ValueObject {
     this.value = id;
   }
 }
+
 class User extends Entity<UserId> {
   public id: UserId;
 

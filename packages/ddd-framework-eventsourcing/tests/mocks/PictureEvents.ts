@@ -24,9 +24,9 @@ export class PictureCreated extends DomainEvent<Identity> {
     this.uri = uri;
   }
 
-  public static readonly EventType = 'PictureCreated';
+  public static readonly eventType = 'PictureCreated';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export class PictureResized extends DomainEvent<Identity> {
@@ -48,9 +48,9 @@ export class PictureResized extends DomainEvent<Identity> {
     this.width = width;
   }
 
-  public static readonly EventType = 'PictureResized';
+  public static readonly eventType = 'PictureResized';
 
-  public static readonly EventVersion = 0;
+  public static readonly eventVersion = 0;
 }
 
 export type PictureEvents = PictureCreated | PictureResized;
