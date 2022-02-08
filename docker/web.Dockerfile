@@ -50,4 +50,7 @@ FROM pruner AS builder
   COPY --from=pruner /app/out/full/ .
   COPY .gitignore .gitignore
 
-  RUN yarn turbo run build --scope="@neweb/web"
+  # Prune the dev dependencies after build step:
+  RUN \
+    yarn turbo run build --scope="@neweb/web" && \
+    yarn install --production
