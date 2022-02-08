@@ -35,5 +35,5 @@ export interface EventStore extends Omit<CoreEventStore, 'append'> {
     anId: Identity,
     version: Stream['version'],
     events: Stream['events']
-  ): Promise<void>;
+  ): PromiseLike<void>;
 }

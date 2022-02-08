@@ -1,5 +1,4 @@
 import DomainEvent from './DomainEvent';
-import StoreEvent from './StoreEvent';
 
 /**
  * Use the Event Store as a queue for publishing all Domain Events through
@@ -18,16 +17,9 @@ import StoreEvent from './StoreEvent';
  */
 export interface EventStore {
   /**
-   * Append the DomainEvent to the end of the actual Event Store by
-   * serializing it first to a StoreEvent.
+   * Append the DomainEvent to the end of the actual Event Store.
+   * It is recommended to first serialize the DomainEvent into a StoreEvent.
    * @param aDomainEvent - Aggregate or Entity DomainEvent.
    */
   append(aDomainEvent: DomainEvent): Promise<void>;
-
-  /**
-   * Serializes the DomainEvent instance into a new StoredEvent
-   * instance to be written to the Event Store.
-   * @param aDomainEvent - Aggregate or Entity DomainEvent.
-   */
-  serialize(aDomainEvent: DomainEvent): StoreEvent;
 }

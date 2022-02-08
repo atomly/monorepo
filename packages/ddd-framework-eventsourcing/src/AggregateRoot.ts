@@ -39,8 +39,11 @@ export default abstract class AggregateRoot<
    * Loads the aggregate state by handling a list of events.
    * Meant to be called after loading the event stream from the EventStore.
    */
-  public load(anEventList: AggregateEvent[]): void {
-    for (const event of anEventList) this.mutate(event);
+  public load(anEvent: AggregateEvent): void;
+  public load(anEventList: AggregateEvent[]): void;
+  public load(arg: AggregateEvent | AggregateEvent[]): void {
+    if (Array.isArray(arg)) for (const event of arg) this.mutate(event);
+    else this.mutate(arg);
   }
 
   /**
