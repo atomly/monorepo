@@ -1,5 +1,5 @@
 {
-  "name": "collection-service",
+  "name": "@neweb/api",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {

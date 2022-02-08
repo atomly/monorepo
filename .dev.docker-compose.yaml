@@ -4,31 +4,40 @@ services:
   web:
     container_name: web
     image: web-dev:1.0.0
-    build:
-      context: .
-      dockerfile: .dev.web.Dockerfile
     # depends_on:
     #   - api
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+      target: runner
+    command: dev
     ports:
+      # Exposing Next.js app port and
+      # Webpack default hot reload port respectively:
       - 3000:3000
       - 49153:49153
     restart: on-failure:3
     volumes:
       - ./:/app
-      - ./app/node_modules/ # Just specify a path and let the Engine create a volume
-  # api:
-  #   container_name: collection-service
-  #   image: collection-service-dev:1.0.0
-  #   build:
-  #     context: .
-  #     dockerfile: .dev.Dockerfile
-  #   # depends_on:
-  #   #   - eventstore-db
-  #   # command: yarn start:dev
-  #   ports:
-  #     - 3000:3000
-  #   networks:
-  #     - collection-service-network
+      - ./app/node_modules/
+
+  api:
+    container_name: api
+    image: api-dev:1.0.0
+    # depends_on:
+    #   - eventstore-db
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+      target: runner
+    command: dev
+    ports:
+      - 4000:4000
+    restart: on-failure:3
+    volumes:
+      - ./:/app
+      - ./app/node_modules/
+
   # eventstore-db:
   #   container_name: eventstore-db
   #   image: eventstore/eventstore:20.10.2-buster-slim
@@ -55,6 +64,3 @@ services:
 # volumes:
 #   eventstore-volume-data:
 #   eventstore-volume-logs:
-
-# networks:
-#   web-network:

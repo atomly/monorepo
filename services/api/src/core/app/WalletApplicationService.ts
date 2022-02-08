@@ -3,6 +3,7 @@ import EncryptionService from '../domain/services/EncryptionService';
 import Wallet from '../domain/wallet/Wallet';
 import * as Events from '../domain/wallet/Events';
 import * as WalletUseCases from '../ports/primary/WalletUseCases';
+
 export default class WalletApplicationService
   implements
     WalletUseCases.ConnectWallet.UseCase,
