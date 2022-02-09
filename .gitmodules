@@ -1,0 +1,3 @@
+[submodule "packages/@ddd-framework"]
+	path = packages/@ddd-framework
+	url = https://github.com/atomly/ddd-framework
