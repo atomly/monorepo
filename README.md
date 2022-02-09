@@ -43,9 +43,13 @@ Building...
 
 This is based on an official Turborepo Yarn v1 starter.
 
-## What's inside?
+### What's inside?
 
 This monorepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager.
+
+### Git Submodules
+
+Submodules allow you to keep a Git repository as a subdirectory of another Git repository. Submodules are being used in this monorepo as a tool to implement monorepo workspaces and achieve a certain level of independency between submodules, while keeping the monorepo as an aggregate of these submodules managing the entire repository and as well as common configuration.
 
 ### Utilities
 
