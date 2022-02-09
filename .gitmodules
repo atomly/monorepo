@@ -1,3 +1,6 @@
 [submodule "packages/@ddd-framework"]
 	path = packages/@ddd-framework
 	url = https://github.com/atomly/ddd-framework
+[submodule "apps/neweb"]
+	path = apps/neweb
+	url = https://github.com/atomly/neweb.git
