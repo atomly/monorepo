@@ -41,7 +41,7 @@ FROM pruner AS installer
 # Setting up the image entrypoint:
 FROM installer AS development
 
-  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/frontendweb", "dev"]
+  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/frontend/web", "dev"]
 
 # Copy source code of pruned subworkspace and build
 FROM installer AS builder
@@ -59,4 +59,4 @@ FROM installer AS builder
 # Setting up the image entrypoint:
 FROM builder AS production
 
-  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/frontendweb", "start"]
+  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/frontend/web", "start"]
