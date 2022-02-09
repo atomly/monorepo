@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig/backend.json",
+  "extends": "../../../../tsconfig/backend.json",
   "include": ["next-env.d.ts", "src", "tests"],
   "exclude": ["dist", "build", "node_modules"]
 }

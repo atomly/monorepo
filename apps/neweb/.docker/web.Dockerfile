@@ -8,10 +8,9 @@
 FROM node:16.13.2-alpine3.14 AS base
 
   RUN apk update \
-    && apk add git \
     && yarn global add turbo@1.1.2
 
-# Prune the workspace for the `"@neweb/api"` package:
+# Prune the workspace for the `"@neweb/web"` package:
 FROM base AS pruner
 
   WORKDIR /app
@@ -19,7 +18,7 @@ FROM base AS pruner
   COPY . .
 
   # Deterministically generating a sparse/partial monorepo with a pruned lockfile for a target package:
-  RUN turbo prune --scope="@neweb/api" --docker
+  RUN turbo prune --scope="@neweb/web" --docker
 
   # The output of turbo prune is a folder `out` with the following inside of it:
   #   1. A folder `json` with the pruned workspace's package.json files
@@ -34,23 +33,28 @@ FROM pruner AS installer
   # Add pruned lockfile and package.json's of the pruned subworkspace:
   COPY --from=pruner /app/out/json/ .
   COPY --from=pruner /app/out/yarn.lock ./yarn.lock
+
   RUN yarn install --frozen-lockfile
 
 # Setting up the image entrypoint:
-FROM installer AS runner
+FROM installer AS development
 
-  ENTRYPOINT ["yarn", "--cwd", "services/api"]
+  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/web", "dev"]
 
 # Copy source code of pruned subworkspace and build
-FROM runner AS builder
+FROM installer AS builder
 
   WORKDIR /app
 
   COPY --from=installer /app/ .
   COPY --from=pruner /app/out/full/ .
-  COPY .gitignore .gitignore
 
-  # Prune the dev dependencies after build step:c
+  # Prune the dev dependencies after build step:
   RUN \
-    yarn turbo run build --scope="@neweb/api" && \
+    yarn turbo run build --scope="@neweb/web" && \
     yarn install --production
+
+# Setting up the image entrypoint:
+FROM builder AS production
+
+  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/web", "start"]
