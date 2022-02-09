@@ -1,0 +1,17 @@
+{
+  "name": "@ddd-framework/eventsourcing",
+  "version": "0.0.0",
+  "license": "MIT",
+  "peerDependencies": {
+    "@ddd-framework/core": "*"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "6.0.0-alpha.5",
+    "@types/jest": "27.4.0",
+    "@types/lodash": "4.14.178",
+    "jest": "27.4.7",
+    "lodash": "4.17.21",
+    "ts-jest": "27.1.3",
+    "typescript": "4.5.5"
+  }
+}

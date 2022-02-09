@@ -1,5 +1,5 @@
-import ValueObject from 'ddd-framework-core/src/ValueObject';
-import { Anemic } from 'ddd-framework-core/src/utils/Anemic';
+import ValueObject from '@ddd-framework/core/src/ValueObject';
+import { Anemic } from '@ddd-framework/core/src/utils/Anemic';
 import EncryptionService, {
   EncryptionKeys
 } from '../services/EncryptionService';

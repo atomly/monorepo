@@ -17,8 +17,10 @@ FROM base AS pruner
 
   COPY . .
 
+  RUN ls
+
   # Deterministically generating a sparse/partial monorepo with a pruned lockfile for a target package:
-  RUN turbo prune --scope="@neweb/web" --docker
+  RUN yarn turbo prune --scope="@neweb/web" --docker
 
   # The output of turbo prune is a folder `out` with the following inside of it:
   #   1. A folder `json` with the pruned workspace's package.json files
@@ -39,7 +41,7 @@ FROM pruner AS installer
 # Setting up the image entrypoint:
 FROM installer AS development
 
-  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/web", "dev"]
+  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/frontendweb", "dev"]
 
 # Copy source code of pruned subworkspace and build
 FROM installer AS builder
@@ -57,4 +59,4 @@ FROM installer AS builder
 # Setting up the image entrypoint:
 FROM builder AS production
 
-  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/web", "start"]
+  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/frontendweb", "start"]

@@ -1,4 +1,4 @@
-import DomainEventClassMap from 'ddd-framework-core/src/utils/DomainEventClassMap';
+import DomainEventClassMap from '@ddd-framework/core/src/utils/DomainEventClassMap';
 import * as WalletEvents from '../../../../core/domain/wallet/Events';
 
 const ClassMap = new DomainEventClassMap(

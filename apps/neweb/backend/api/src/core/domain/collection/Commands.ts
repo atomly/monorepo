@@ -1,4 +1,4 @@
-import Command from 'ddd-framework-core/src/Command';
+import Command from '@ddd-framework/core/src/Command';
 import Wallet from '../wallet/Wallet';
 import CollectionId from './CollectionId';
 

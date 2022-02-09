@@ -1,4 +1,4 @@
-import { EventStore } from 'ddd-framework-eventsourcing/src/EventStore';
+import { EventStore } from '@ddd-framework/eventsourcing/src/EventStore';
 import EncryptionService from '../domain/services/EncryptionService';
 import Wallet from '../domain/wallet/Wallet';
 import * as Events from '../domain/wallet/Events';

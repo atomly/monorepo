@@ -1,8 +1,8 @@
 import { EventStoreDBClient, FORWARDS, START } from '@eventstore/db-client';
-import { EventStream } from 'ddd-framework-eventsourcing/src/EventStream';
-import { EventStore } from 'ddd-framework-eventsourcing/src/EventStore';
-import Identity from 'ddd-framework-core/src/Identity';
-import DomainEvent from 'ddd-framework-core/src/DomainEvent';
+import { EventStream } from '@ddd-framework/eventsourcing/src/EventStream';
+import { EventStore } from '@ddd-framework/eventsourcing/src/EventStore';
+import Identity from '@ddd-framework/core/src/Identity';
+import DomainEvent from '@ddd-framework/core/src/DomainEvent';
 import { EsStoreEvent } from './EsStoreEvent';
 
 export default class EsEventStore implements EventStore {

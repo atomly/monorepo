@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "services/*",
-    "packages/*",
+    "apps/**/*",
+    "packages/**/*",
     "eslint/",
     "tsconfig/"
   ],

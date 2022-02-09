@@ -37,9 +37,9 @@ FROM pruner AS installer
   RUN yarn install --frozen-lockfile
 
 # Setting up the image entrypoint:
-FROM installer AS runner
+FROM installer AS development
 
-  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/api", "dev"]
+  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/backend/api", "dev"]
 
 # Copy source code of pruned subworkspace and build
 FROM installer AS builder
@@ -57,4 +57,4 @@ FROM installer AS builder
 # Setting up the image entrypoint:
 FROM builder AS production
 
-  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/api", "start"]
+  ENTRYPOINT ["yarn", "--cwd", "apps/neweb/backend/api", "start"]

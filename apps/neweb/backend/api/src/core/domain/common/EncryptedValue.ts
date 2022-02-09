@@ -1,4 +1,4 @@
-import ValueObject from 'ddd-framework-core/src/ValueObject';
+import ValueObject from '@ddd-framework/core/src/ValueObject';
 import EncryptionService from '../services/EncryptionService';
 
 export default class EncryptedValue extends ValueObject {

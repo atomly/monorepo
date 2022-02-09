@@ -4,11 +4,11 @@ import {
   JSONRecordedEvent,
   JSONType
 } from '@eventstore/db-client';
-import DomainEvent from 'ddd-framework-core/src/DomainEvent';
-import StoreEvent from 'ddd-framework-core/src/StoreEvent';
+import DomainEvent from '@ddd-framework/core/src/DomainEvent';
+import StoreEvent from '@ddd-framework/core/src/StoreEvent';
 import { v4 as uuidv4 } from 'uuid';
 import DomainEventClassMap from './DomainEventClassMap';
-import { DataTransferObject } from 'ddd-framework-core/src/utils/DataTransferObject';
+import { DataTransferObject } from '@ddd-framework/core/src/utils/DataTransferObject';
 import { assert } from 'eccrypto-js';
 
 export class EsStoreEvent extends StoreEvent<string> {

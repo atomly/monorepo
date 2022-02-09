@@ -1,5 +1,5 @@
-import DomainEvent from 'ddd-framework-core/src/DomainEvent';
-import { DataTransferObject } from 'ddd-framework-core/src/utils/DataTransferObject';
+import DomainEvent from '@ddd-framework/core/src/DomainEvent';
+import { DataTransferObject } from '@ddd-framework/core/src/utils/DataTransferObject';
 import Address from '../common/Address';
 import EncryptedValue from '../common/EncryptedValue';
 import { Network } from '../Network';

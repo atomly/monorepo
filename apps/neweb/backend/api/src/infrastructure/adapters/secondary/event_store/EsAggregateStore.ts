@@ -1,7 +1,7 @@
 import { EventStoreDBClient } from '@eventstore/db-client';
-import { AggregateStore } from 'ddd-framework-eventsourcing/src/AggregateStore';
-import Identity from 'ddd-framework-core/src/Identity';
-import AggregateRoot from 'ddd-framework-eventsourcing/src/AggregateRoot';
+import { AggregateStore } from '@ddd-framework/eventsourcing/src/AggregateStore';
+import Identity from '@ddd-framework/core/src/Identity';
+import AggregateRoot from '@ddd-framework/eventsourcing/src/AggregateRoot';
 import { EsStoreEvent } from './EsStoreEvent';
 
 export default class EsAggregateStore implements AggregateStore {

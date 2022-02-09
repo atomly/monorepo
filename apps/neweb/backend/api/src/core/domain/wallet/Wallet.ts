@@ -1,5 +1,5 @@
 import assert from 'assert';
-import AggregateRoot from 'ddd-framework-eventsourcing/src/AggregateRoot';
+import AggregateRoot from '@ddd-framework/eventsourcing/src/AggregateRoot';
 import Address from '../common/Address';
 import ApiKeys from './ApiKeys';
 import UserProfile from './UserProfile';

@@ -1,5 +1,5 @@
-import Command from 'ddd-framework-core/src/Command';
-import { DataTransferObject } from 'ddd-framework-core/src/utils/DataTransferObject';
+import Command from '@ddd-framework/core/src/Command';
+import { DataTransferObject } from '@ddd-framework/core/src/utils/DataTransferObject';
 import Address from '../common/Address';
 import { Network } from '../Network';
 import WalletId from './WalletId';
