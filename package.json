@@ -10,18 +10,19 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "clean": "npm run clean:deps && npm run clean:dist && npm run clean:.next && npm run clean:turbo",
+    "clean:.next": "rm -fr **/*/*.tsbuildinfo && rm -fr **/*/.next",
     "clean:deps": "rm -fr node_modules && rm -fr **/*/node_modules && rm -f yarn.json && rm -fr */**/yarn.json && rm -f yarn.json && rm -fr */**/yarn.json",
     "clean:dist": "rm -fr **/*/*.tsbuildinfo && rm -fr **/*/dist",
-    "clean:.next": "rm -fr **/*/*.tsbuildinfo && rm -fr **/*/.next",
-    "clean:tmp": "rm -fr tmp && rm -fr */**/tmp",
-    "clean:turbo": "rm -fr .turbo && rm -fr */**/.turbo",
     "clean:logs": "rm -f *.log && rm -fr */**/*.log",
     "clean:output": "rm -fr output && rm -fr */**/output",
+    "clean:tmp": "rm -fr tmp && rm -fr */**/tmp",
+    "clean:turbo": "rm -fr .turbo && rm -fr */**/.turbo",
+    "clean": "npm run clean:deps && npm run clean:dist && npm run clean:.next && npm run clean:turbo",
     "commit": "npx cz",
     "dev": "turbo run dev --parallel",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "watch": "turbo run build --watch"
   },
   "devDependencies": {
     "commitizen": "4.2.4",
