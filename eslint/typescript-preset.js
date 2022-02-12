@@ -45,8 +45,10 @@ module.exports = {
     '@typescript-eslint/no-dupe-class-members': ['error'],
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/no-use-before-define': ['error'],
+    '@typescript-eslint/no-useless-constructor': ['error'],
     'no-dupe-class-members': 'off',
     'no-unused-vars': 'off',
-    'no-use-before-define': 'off'
+    'no-use-before-define': 'off',
+    'no-useless-constructor': 'off'
   }
 };
