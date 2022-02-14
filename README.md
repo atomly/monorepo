@@ -30,6 +30,21 @@ This monorepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package man
 
 Submodules allow us to keep a Git repository as a subdirectory of another Git repository. Submodules are being used in this monorepo as a tool to implement monorepo workspaces and achieve a certain level of independency between submodules, while keeping the monorepo as an aggregate of these submodules managing the entire repository and as well as common configuration.
 
+### Useful Links
+
+- [EventStore gRPC clients](https://developers.eventstore.com/clients/grpc/#connection-details)
+- [EventStore Server v20.10](https://developers.eventstore.com/server/v20.10)
+- [Networking in Compose](https://docs.docker.com/compose/networking/)
+- [DDD, Hexagonal, Onion, Clean, CQRS, … How I put it all together](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/#ports)
+- [Domain-Driven Hexagon](https://raw.githubusercontent.com/Sairyss/domain-driven-hexagon/master/assets/images/DomainDrivenHexagon.png)
+- **[Docker Anti Patterns](https://codefresh.io/containers/docker-anti-patterns/)**
+- [Pipelines](https://monorepo.org/docs/features/pipelines)
+- [Caching](https://monorepo.org/docs/features/caching)
+- [Remote Caching (Beta)](https://monorepo.org/docs/features/remote-caching)
+- [Scoped Tasks](https://monorepo.org/docs/features/scopes)
+- [Configuration Options](https://monorepo.org/docs/reference/configuration)
+- [CLI Usage](https://monorepo.org/docs/reference/command-line-reference)
+
 ### To run in a development environment
 
 Start the respective docker-compose file at root level, for example:
@@ -39,17 +54,10 @@ $ docker-compose -f .dev.docker-compose.yaml up --force-recreate --build
 Building...
 ```
 
-Note that docker-compose in a development environment should reference development Dockerfile images, **not deployment images** (e.g. QA, staging, production, et al.). Dockerfiles with multi-stage builds can be used to achieve this.
+Note that:
 
-## Useful Links
-
-- **[Docker Anti Patterns](https://codefresh.io/containers/docker-anti-patterns/)**
-- [Pipelines](https://monorepo.org/docs/features/pipelines)
-- [Caching](https://monorepo.org/docs/features/caching)
-- [Remote Caching (Beta)](https://monorepo.org/docs/features/remote-caching)
-- [Scoped Tasks](https://monorepo.org/docs/features/scopes)
-- [Configuration Options](https://monorepo.org/docs/reference/configuration)
-- [CLI Usage](https://monorepo.org/docs/reference/command-line-reference)
+- docker-compose in a development environment should reference development Dockerfile images, **not deployment images** (e.g. QA, staging, production, et al.). Dockerfiles with multi-stage builds can be used to achieve this.
+- [By default Compose sets up a single network for your app. Each container for a service *(i.e. docker-compose)* joins the default network and is both reachable by other containers on that network, and discoverable by them at a hostname identical to the container name](https://docs.docker.com/compose/networking/), e.g. `http://eventstore-db:2113`, `http://web:3000`, `http://api:4000`.
 
 ## Utilities
 
