@@ -59,6 +59,13 @@ Note that:
 - docker-compose in a development environment should reference development Dockerfile images, **not deployment images** (e.g. QA, staging, production, et al.). Dockerfiles with multi-stage builds can be used to achieve this.
 - [By default Compose sets up a single network for your app. Each container for a service *(i.e. docker-compose)* joins the default network and is both reachable by other containers on that network, and discoverable by them at a hostname identical to the container name](https://docs.docker.com/compose/networking/), e.g. `http://eventstore-db:2113`, `http://web:3000`, `http://api:4000`.
 
+### To SH into a docker container
+
+```sh
+$ docker exec -it <container-name> sh
+/app #
+```
+
 ## Utilities
 
 This monorepo has some additional tools already setup:
