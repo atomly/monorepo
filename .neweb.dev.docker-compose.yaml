@@ -30,7 +30,8 @@ services:
       dockerfile: apps/neweb/.docker/api.Dockerfile
       target: development
     ports:
-      - 3001:4000
+      - 3100:4000
+      - 3101:4001
     restart: on-failure:3
     volumes:
       - ./:/app
@@ -49,8 +50,8 @@ services:
       - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
       - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
     ports:
-      - 3002:1113
-      - 3003:2113
+      - 3200:1113
+      - 3201:2113
     volumes:
       - type: volume
         source: eventstore-volume-data
