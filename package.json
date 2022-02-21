@@ -19,13 +19,14 @@
     "clean:tsbuildinfo": "find . -name '*.tsbuildinfo' -type f -prune -exec rm -rf '{}' +",
     "clean:turbo": "find . -name '.turbo' -type f -prune -exec rm -rf '{}' +",
     "clean:yarn": "find . -name 'yarn.json' -type f -prune -exec rm -rf '{}' +",
-    "clean": "yarn clean:.next && yarn clean:deps && yarn clean:dist && yarn clean:logs && yarn clean:output && yarn clean:tmp && yarn clean:tsbuildinfo && yarn clean:turbo && yarn clean:yarn",
+    "clean": "yarn clean:.next && yarn clean:deps && yarn clean:dist && yarn clean:logs && yarn clean:output && yarn clean:tmp && yarn clean:turbo && yarn clean:yarn",
     "commit": "npx cz",
-    "dev": "turbo run dev --parallel --no-deps",
     "dev:@ddd-framework": "yarn dev --scope=\"@ddd-framework/**\"",
+    "dev": "turbo run dev --parallel --no-deps",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "neweb:dev": "docker compose -f .neweb.dev.docker-compose.yaml up",
+    "preclean:dist": "yarn clean:tsbuildinfo",
     "watch": "turbo run build --watch"
   },
   "devDependencies": {
