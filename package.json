@@ -22,11 +22,13 @@
     "clean": "yarn clean:.next && yarn clean:deps && yarn clean:dist && yarn clean:logs && yarn clean:output && yarn clean:tmp && yarn clean:turbo && yarn clean:yarn",
     "commit": "npx cz",
     "dev:@ddd-framework": "yarn dev --scope=\"@ddd-framework/**\"",
+    "dev:neweb": "docker compose -f .neweb.dev.docker-compose.yaml up",
     "dev": "turbo run dev --parallel --no-deps",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "neweb:dev": "docker compose -f .neweb.dev.docker-compose.yaml up",
+    "prebuild": "yarn clean:dist",
     "preclean:dist": "yarn clean:tsbuildinfo",
+    "preclean:deps": "yarn clean:yarn",
     "watch": "turbo run build --watch"
   },
   "devDependencies": {
